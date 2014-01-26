@@ -19,5 +19,10 @@ namespace BitsmackGTWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult Pedometer()
+        {
+            return View();
+        }
     }
 }
