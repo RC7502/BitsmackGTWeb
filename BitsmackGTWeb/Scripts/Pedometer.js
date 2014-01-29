@@ -18,7 +18,7 @@ function getPedometerSummary() {
                 } else {
                     $("#trendsteps").addClass("goodValue");
                 }
-                $("#avgsleep").html(returndata.AvgSleep);
+                $("#avgsleep").html(MinutesToHours(returndata.AvgSleep));
                 $("#sleepgoal").html(returndata.SleepStartTime + " - " + returndata.SleepEndTime);
             },
             error: function (jqXHR, textStatus, errorThrown) {
