@@ -1,6 +1,6 @@
 ﻿$(function () {
     getPedometerSummary();
-
+    getTransactions();
 });
 
 function getPedometerSummary() {
@@ -25,4 +25,25 @@ function getPedometerSummary() {
                 $("#pedometersummary").html(textStatus + "" + errorThrown);
             }
         });
+}
+
+function getTransactions() {
+    var oTable = $("#recentPedometerEntries").dataTable({
+        "oLanguage": {
+            "sSearch": "Search all columns:"
+        },
+        "sAjaxSource": "http://bitsmackgtapi.apphb.com/pedometer/detail",
+        "bServerSide": false,
+        "bProcessing": true,
+        "bSortClasses": false,
+        "bDeferRender": true,
+        "aaSorting": [[0,'desc']],
+        "aoColumns": [
+            { "sName": "Date" },
+            { "sName": "Steps" },
+            { "sName": "Sleep" },
+            { "sName": "Created" },
+            { "sName": "Updated" }
+        ]
+    });
 }

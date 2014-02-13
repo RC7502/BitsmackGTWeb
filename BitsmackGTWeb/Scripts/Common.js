@@ -3,3 +3,7 @@
     var minutes = totalminutes % 60;
     return hours + ":" + minutes;
 }
+
+function createTable() {
+    
+}
