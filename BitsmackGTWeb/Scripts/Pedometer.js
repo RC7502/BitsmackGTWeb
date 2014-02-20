@@ -41,7 +41,12 @@ function getTransactions() {
         "aoColumns": [
             { "sName": "Date" },
             { "sName": "Steps" },
-            { "sName": "Sleep" },
+            {
+                "sName": "Sleep",
+                "mRender": function(data) {
+                    return MinutesToHours(data);
+                }
+            },
             { "sName": "Created" },
             { "sName": "Updated" }
         ]
