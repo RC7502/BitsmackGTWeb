@@ -7,7 +7,7 @@ function getGoals() {
         "oLanguage": {
             "sSearch": "Search all columns:"
         },
-        "sAjaxSource": "http://localhost:53690/goal/summary",
+        "sAjaxSource": "http://bitsmackgtapi.apphb.com/goal/summary",
         "bServerSide": false,
         "bProcessing": true,
         "bSortClasses": false,
