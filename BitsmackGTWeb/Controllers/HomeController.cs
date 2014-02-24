@@ -34,5 +34,10 @@ namespace BitsmackGTWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult Budget()
+        {
+            return View();
+        }
     }
 }
