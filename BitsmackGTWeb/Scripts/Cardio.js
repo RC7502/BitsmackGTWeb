@@ -21,7 +21,7 @@ function getCardioSummary() {
 }
 
 function goalTrainingPaces(goaltime) {
-    var distances = [1, 2, 3.1, 4, 5, 6, 6.2, 7, 8, 9, 10, 13.1];
+    var distances = [1, 2, 3, 3.1, 4, 5, 6, 6.2, 7, 8, 9, 10, 13.1];
     $.each(distances, function(index, distance) {
         var newRow = $("<tr></tr>");
         newRow.append($("<td></td>").append(distance));
