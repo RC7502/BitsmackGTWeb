@@ -29,3 +29,4 @@ function GoalPaceAtDiffDistance(distance, fivekgoalseconds) {
     var newtime = fivekgoalseconds / (Math.pow(3.1 / distance, 1.06));
     return newtime;
 }
+
