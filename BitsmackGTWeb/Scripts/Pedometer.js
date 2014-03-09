@@ -1,6 +1,5 @@
 ﻿$(function () {
     getPedometerSummary();
-    getTransactions();
 });
 
 function getPedometerSummary() {
@@ -20,6 +19,7 @@ function getPedometerSummary() {
                 }
                 $("#avgsleep").html(MinutesToHours(returndata.AvgSleep));
                 $("#sleepgoal").html(returndata.SleepStartTime + " - " + returndata.SleepEndTime);
+                getTransactions();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#pedometersummary").html(textStatus + "" + errorThrown);

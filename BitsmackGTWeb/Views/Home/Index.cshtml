@@ -2,7 +2,110 @@
     ViewBag.Title = "Home Page";
 }
 
-<h2>@ViewBag.Message</h2>
-<p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-</p>
+<h2>Dashboard</h2>
+
+<table>
+    <tr>
+        <td style="vertical-align: top">
+            Summary
+            <table>
+                <tr>
+                    <td>Number of Days:</td>
+                    <td id="numofdays"></td>
+                </tr>
+                <tr>
+                    <td>Average Steps:</td>
+                    <td id="avgsteps"></td>
+                </tr>
+                <tr>
+                    <td>Trend Steps</td>
+                    <td id="trendsteps"></td>
+                </tr>
+                <tr>
+                    <td>New Step Goal:</td>
+                    <td id="newstepgoal"></td>
+                </tr>
+                <tr>
+                    <td>Average Sleep Time:</td>
+                    <td id="avgsleep"></td>
+                </tr>
+                <tr>
+                    <td>Sleep Goal</td>
+                    <td id="sleepgoal"></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table id="recentPedometerEntries">
+                <thead>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Steps
+                        </th>
+                        <th>
+                            Sleep
+                        </th>
+                        <th>Created Date</th>
+                        <th>Last Updated</th>
+                    </tr>
+                </thead>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table id="goalSummaryTable"> 
+                <thead><th>Name</th>
+                    <th>Average</th>
+                    <th>Trend</th>
+                    <th>New Goal</th>
+                </thead>  
+
+            </table> 
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">
+            <div id="cardiosummary">
+                Summary
+                   <table>
+                        <tr>
+                            <td>Total Runs:</td>
+                            <td id="totalruns"></td>
+                        </tr>
+                        <tr>
+                            <td>Average Miles Per Run:</td>
+                            <td id="avgmiles"></td>
+                        </tr>
+                        <tr>
+                            <td>Average Adjusted 5K Time</td>
+                            <td id="avgadj5ktime"></td>
+                        </tr>
+       
+                    </table>
+
+            </div>
+        </td>
+        <td>
+            <div>
+                <table id="trainingpaces">
+                    <tr>
+                        <td>
+                            Distance
+                        </td>
+                        <td>
+                            Goal Time
+                        </td>
+                        <td>
+                            Goal Pace
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+
