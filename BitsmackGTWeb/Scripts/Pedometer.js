@@ -20,6 +20,7 @@ function getPedometerSummary() {
                 $("#avgsleep").html(MinutesToHours(returndata.AvgSleep));
                 $("#sleepgoal").html(returndata.SleepStartTime + " - " + returndata.SleepEndTime);
                 getTransactions();
+                pedometerMonthAvgChart();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#pedometersummary").html(textStatus + "" + errorThrown);
@@ -51,4 +52,37 @@ function getTransactions() {
             { "sName": "Updated" }
         ]
     });
+}
+
+function pedometerMonthAvgChart() {
+    $.ajax({
+        url: "http://bitsmackgtapi.apphb.com/pedometer/monthaverages",
+        success: function(chartData) {
+            $('#pedometerMonthAvg').highcharts({
+                chart: {
+                    renderTo: 'container',
+                    type: 'column'
+                },
+                title: {
+                    text: 'Average Steps/Day By Month'
+                },
+                xAxis: {
+                    categories: chartData.Categories
+                },
+                yAxis: {
+                    plotLines: [{
+                        value: chartData.PlotLine,
+                        color: '#ff0000',
+                        width: 2,
+                        zIndex: 4
+                    }]
+                },
+                series: [{
+                    name: 'Steps Per Day',
+                    data: chartData.SeriesData
+                }]
+            });
+        }
+    });
+
 }
