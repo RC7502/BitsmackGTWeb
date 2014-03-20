@@ -21,6 +21,7 @@ function getPedometerSummary() {
                 $("#sleepgoal").html(returndata.SleepStartTime + " - " + returndata.SleepEndTime);
                 getTransactions();
                 pedometerMonthAvgChart();
+                weightCalDetailTable();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#pedometersummary").html(textStatus + "" + errorThrown);
@@ -85,4 +86,25 @@ function pedometerMonthAvgChart() {
         }
     });
 
+}
+
+function weightCalDetailTable() {
+    var oTable = $("#weightCalTable").dataTable({
+        "oLanguage": {
+            "sSearch": "Search all columns:"
+        },
+        "sAjaxSource": "http://bitsmackgtapi.apphb.com/goal/weightdetail",
+        //"sAjaxSource": "http://localhost:53690/goal/summary",
+        "bServerSide": false,
+        "bProcessing": true,
+        "bSortClasses": false,
+        "bDeferRender": true,
+        "aaSorting": [[0, 'desc']],
+        "aoColumns": [
+            { "sName": "Date" },
+            {"sName": "Weight"},
+            {"sName": "Trend"},
+            {"sName": "Calories Consumed"}
+        ]
+    });
 }
