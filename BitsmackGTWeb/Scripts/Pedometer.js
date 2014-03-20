@@ -105,6 +105,18 @@ function weightCalDetailTable() {
             {"sName": "Weight"},
             {"sName": "Trend"},
             {"sName": "Calories Consumed"}
-        ]
+        ],
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            /* Append the grade to the default row class name */
+            if (aData[1] != 0) {
+                if (aData[1] < aData[2]) {
+                    $('td:eq(1)', nRow).addClass("goodValue");
+                } else {
+                    $('td:eq(1)', nRow).addClass("badValue");
+                }
+            }
+            
+            return nRow;
+        }
     });
 }
