@@ -8,7 +8,6 @@
 <table>
     <tr>
         <td style="vertical-align: top">
-            Summary
             <table>
                 <tr>
                     <td>Number of Days:</td>
@@ -62,25 +61,48 @@
 </table>
 <h3>Weight and Diet</h3>
 <table>
-<tr>
-    <td colspan="2">
-        <table id="weightCalTable"> 
-            <thead><th>Date</th>
-                <th>Weight</th>
-                <th>Trend</th>
-                <th>Calories Consumed</th>
-            </thead>  
+    <tr>
+        <td style="vertical-align: top">
+            <table>
+                <tr>
+                    <td>Date Range</td>
+                    <td id="weightDateRange"></td>
+                </tr>
+                <tr>
+                    <td>Weight Loss</td>
+                    <td id="weightLoss"></td>
+                </tr>
+                <tr>
+                    <td>Calories Consumed Per Day</td>
+                    <td id="calConsumedPerDay"></td>
+                </tr>
+                <tr>
+                    <td>Calories Burned Per Day</td>
+                    <td id="calBurnedPerDay"></td>
+                </tr>
+                <tr>
+                    <td>New Calorie Goal (1lb per week)</td>
+                    <td id="newCalorieGoal"></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table id="weightCalTable"> 
+                <thead><th>Date</th>
+                    <th>Weight</th>
+                    <th>Trend</th>
+                    <th>Calories Consumed</th>
+                </thead>  
 
-        </table> 
-    </td>
-</tr>
+            </table> 
+        </td>
+    </tr>
 </table>
 <h3>Running</h3>
 <table>
     <tr>
         <td style="vertical-align: top">
             <div id="cardiosummary">
-                Summary
                    <table>
                         <tr>
                             <td>Total Runs:</td>

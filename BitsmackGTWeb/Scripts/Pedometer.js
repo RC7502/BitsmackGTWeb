@@ -21,6 +21,7 @@ function getPedometerSummary() {
                 $("#sleepgoal").html(returndata.SleepStartTime + " - " + returndata.SleepEndTime);
                 getTransactions();
                 pedometerMonthAvgChart();
+                weightCalSummaryTable();
                 weightCalDetailTable();
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -86,6 +87,19 @@ function pedometerMonthAvgChart() {
         }
     });
 
+}
+
+function weightCalSummaryTable() {
+    $.ajax({
+        url: "http://bitsmackgtapi.apphb.com/goal/weightsummary",
+        success: function (returndata) {
+            $("#weightDateRange").html(returndata.DateRange);
+            $("#weightLoss").html(returndata.WeightTrendChange);
+            $("#calConsumedPerDay").html(returndata.CalConsumedPerDay);
+            $("#calBurnedPerDay").html(returndata.CalBurnedPerDay);
+            $("#newCalorieGoal").html(returndata.NewDailyCalorieGoal);
+        }
+    });
 }
 
 function weightCalDetailTable() {
