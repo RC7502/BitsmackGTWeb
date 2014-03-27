@@ -30,3 +30,11 @@ function GoalPaceAtDiffDistance(distance, fivekgoalseconds) {
     return newtime;
 }
 
+function Row() {
+    return $("<tr></tr>");
+}
+
+function Cell(html) {
+    return $("<td></td>").html(html);
+}
+
