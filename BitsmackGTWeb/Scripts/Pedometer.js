@@ -94,10 +94,17 @@ function weightCalSummaryTable() {
         url: "http://bitsmackgtapi.apphb.com/goal/weightsummary",
         success: function (returndata) {
             $("#weightDateRange").html(returndata.DateRange);
-            $("#weightLoss").html(returndata.WeightTrendChange);
+            $("#weightLoss").html(returndata.WeightTrendChange + " lbs.");
             $("#calConsumedPerDay").html(returndata.CalConsumedPerDay);
             $("#calBurnedPerDay").html(returndata.CalBurnedPerDay);
             $("#newCalorieGoal").html(returndata.NewDailyCalorieGoal);
+            var lbsPerWeek = returndata.WeightTrendChange / (returndata.NumDays / 7);
+            if (lbsPerWeek > 1) {
+                $("#weightLoss").addClass("goodValue");
+            }
+            else if (lbsPerWeek < 0) {
+                $("#weightLoss").addClass("badValue");
+            }
         }
     });
 }
