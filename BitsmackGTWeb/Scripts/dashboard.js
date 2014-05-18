@@ -46,10 +46,16 @@ function loadListView(url) {
         "url":url, 
         "success": function(returnData) {
             var divider = $('<div data-role="collapsible" data-iconpos="right" data-inset="false"></div>');
-            divider.append($("<h2></h2>").append(returnData.Title + " - " + returnData.Text));
-            var subList = $("<ul data-role='listview' data-theme='b'></ul>");
+            divider.append($("<h2></h2>").append(returnData.Title));
+            $.each(returnData.Texts, function() {
+                divider.append("<p>" + this + "</p>");
+            });
+            var subList = $("<ul data-role='listview' data-theme='a'></ul>");
             $.each(returnData.Items, function() {
-                var item = $("<li></li>").html(this.Title + " - " + this.Text);
+                var item = $("<li></li>").append(this.Title);
+                $.each(this.Texts, function () {
+                    item.append("<p>" + this + "</p>");
+                });
                 subList.append(item);
             });
             divider.append(subList);
