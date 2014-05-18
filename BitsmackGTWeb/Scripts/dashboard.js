@@ -1,5 +1,5 @@
 ﻿$(function() {
-    buildDashboardList();
+    loadListView("http://bitsmackgtapi.apphb.com/dashboard/steps");
 
 });
 
@@ -38,4 +38,28 @@ function buildDashboardList() {
         
         listview.listview("refresh");
     });
+}
+
+function loadListView(url) {
+    var listview = $("#dashListView");
+    $.ajax({
+        "url":url, 
+        "success": function(returnData) {
+            var divider = $('<div data-role="collapsible" data-iconpos="right" data-inset="false"></div>');
+            divider.append($("<h2></h2>").append(returnData.Title + " - " + returnData.Text));
+            var subList = $("<ul data-role='listview' data-theme='b'></ul>");
+            $.each(returnData.Items, function() {
+                var item = $("<li></li>").html(this.Title + " - " + this.Text);
+                subList.append(item);
+            });
+            divider.append(subList);
+            listview.append(divider);
+            $('ul[data-role="listview"]').listview({ refresh: true });
+            $('div[data-role="collapsible"]').collapsible({ refresh: true });
+        },
+        "complete": function () {           
+            
+        }
+    });
+
 }
