@@ -1,0 +1,12 @@
+﻿body {
+}
+
+.goodValue {
+    color: green;
+    font-weight: bold;
+}
+
+.badValue {
+    color: red;
+    font-weight: bold;
+}
