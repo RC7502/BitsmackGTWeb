@@ -1,5 +1,7 @@
 ﻿$(function() {
-    loadListView("http://bitsmackgtapi.apphb.com/dashboard/steps");
+    loadListView("http://bitsmackgtapi.apphb.com/dashboard/steps", function() {
+        loadListView("http://bitsmackgtapi.apphb.com/dashboard/calories");
+    });
 
 });
 
@@ -40,7 +42,7 @@ function buildDashboardList() {
     });
 }
 
-function loadListView(url) {
+function loadListView(url, callback) {
     var listview = $("#dashListView");
     $.ajax({
         "url":url, 
@@ -57,8 +59,10 @@ function loadListView(url) {
             listview.append(divider);
             $('ul[data-role="listview"]').listview({ refresh: true });
             $('div[data-role="collapsible"]').collapsible({ refresh: true });
-
-
+            if (typeof(callback) != "undefined") {
+                callback();
+            }
+            
         },
         "complete": function () {           
             
