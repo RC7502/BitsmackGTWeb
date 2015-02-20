@@ -10,33 +10,22 @@ namespace BitsmackGTWeb.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            ViewBag.Message = "Goals Dashboard";
 
             return View();
         }
 
         public ActionResult About()
         {
+            ViewBag.Message = "Your app description page.";
+
             return View();
         }
 
-        public ActionResult Pedometer()
+        public ActionResult Contact()
         {
-            return View();
-        }
+            ViewBag.Message = "Your contact page.";
 
-        public ActionResult Cardio()
-        {
-            return View();
-        }
-
-        public ActionResult Goals()
-        {
-            return View();
-        }
-
-        public ActionResult Budget()
-        {
             return View();
         }
     }

@@ -9,36 +9,53 @@ using BitsmackGTWeb.Models;
 
 namespace BitsmackGTWeb.Controllers
 {
+
+    [Authorize]
     public class AccountController : Controller
     {
-
         //
-        // GET: /Account/LogOn
+        // GET: /Account/Index
 
-        public ActionResult LogOn()
+        public ActionResult Index()
         {
             return View();
         }
 
         //
-        // POST: /Account/LogOn
+        // GET: /Account/Login
 
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/Login
+
+        [AllowAnonymous]
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
-                    return RedirectToAction("Index", "Home");
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
-                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                else
+                {
+                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                }
             }
 
             // If we got this far, something failed, redisplay form
@@ -58,6 +75,7 @@ namespace BitsmackGTWeb.Controllers
         //
         // GET: /Account/Register
 
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -66,18 +84,20 @@ namespace BitsmackGTWeb.Controllers
         //
         // POST: /Account/Register
 
+        [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+                Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
+                    FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -93,7 +113,6 @@ namespace BitsmackGTWeb.Controllers
         //
         // GET: /Account/ChangePassword
 
-        [Authorize]
         public ActionResult ChangePassword()
         {
             return View();
@@ -102,8 +121,8 @@ namespace BitsmackGTWeb.Controllers
         //
         // POST: /Account/ChangePassword
 
-        [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
             if (ModelState.IsValid)
@@ -114,7 +133,7 @@ namespace BitsmackGTWeb.Controllers
                 bool changePasswordSucceeded;
                 try
                 {
-                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
+                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, userIsOnline: true);
                     changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
                 }
                 catch (Exception)
