@@ -131,6 +131,10 @@ publish/
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
 #packages/
+!/packages/*/lib/*.dll
+!/packages/*/lib/net45/*.dll
+!/packages/*/lib/net40/*.dll
+!/packages/*/tools/*.dll
 
 # Windows Azure Build Output
 csx
