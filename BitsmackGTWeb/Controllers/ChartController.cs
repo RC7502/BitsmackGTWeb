@@ -72,5 +72,11 @@ namespace BitsmackGTWeb.Controllers
         {
             return Json(_service.CurrentMonthGoalProgress(), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult WeightYearProgress()
+        {
+            return Json(_service.WeightYearProgressNet(), JsonRequestBehavior.AllowGet);
+        }
     }
 }

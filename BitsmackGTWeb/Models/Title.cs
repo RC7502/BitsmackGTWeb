@@ -7,6 +7,7 @@ namespace BitsmackGTWeb.Models
 {
     public class Title
     {
+       // public int y { get; set; }
         public string text { get; set; }
     }
 }

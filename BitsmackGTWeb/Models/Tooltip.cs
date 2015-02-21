@@ -7,6 +7,7 @@ namespace BitsmackGTWeb.Models
 {
     public class Tooltip
     {
+        public bool enabled { get; set; }
         public bool shared { get; set; }
     }
 }

@@ -2,6 +2,11 @@
     LoadThemes();
     BuildChart("Chart/AllGoalsByMonth", "#AllGoalsByMonth");
     BuildChart("Chart/CurrentMonthGoalProgress", "#CurrentMonthProgress");
+    //BuildChart("Chart/WeightYearProgress", "#WeightYearGauge");
+
+    $.get("Chart/WeightYearProgress", function(returndata) {
+        $("#WeightYearGauge").html(returndata);
+    });
 });
 
 function BuildChart(url, targetDiv) {

@@ -69,5 +69,18 @@ namespace BitsmackGTWeb.Models
             var daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
             return (double) now.Day/daysInMonth;
         }
+
+        public double GetStartWeight(int year)
+        {
+            var firstYearRec = PedommeterRecords.Where(x => x.trandate.Year == year).OrderBy(x => x.trandate).FirstOrDefault();
+            return firstYearRec != null ? firstYearRec.weight : 0;
+        }
+
+        public double GetRecentWeight()
+        {
+            var recentRec =
+                PedommeterRecords.Where(x => x.weight > 0).OrderByDescending(x => x.trandate).FirstOrDefault();
+            return recentRec != null ? recentRec.weight : 0;
+        }
     }
 }
