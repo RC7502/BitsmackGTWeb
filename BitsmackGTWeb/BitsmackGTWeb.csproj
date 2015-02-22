@@ -162,26 +162,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Background.cs" />
-    <Compile Include="Models\Bar.cs" />
-    <Compile Include="Models\Chart.cs" />
     <Compile Include="Models\ChartService.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\DataLabels.cs" />
-    <Compile Include="Models\Labels.cs" />
-    <Compile Include="Models\Pane.cs" />
     <Compile Include="Models\PedometerCalcService.cs" />
-    <Compile Include="Models\HighCharts.cs" />
-    <Compile Include="Models\Legend.cs" />
     <Compile Include="Models\Pedometer.cs" />
-    <Compile Include="Models\PlotOptions.cs" />
-    <Compile Include="Models\Series.cs" />
-    <Compile Include="Models\SolidGauge.cs" />
-    <Compile Include="Models\Title.cs" />
-    <Compile Include="Models\Tooltip.cs" />
     <Compile Include="Models\WebAPIClient.cs" />
-    <Compile Include="Models\XAxis.cs" />
-    <Compile Include="Models\YAxis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

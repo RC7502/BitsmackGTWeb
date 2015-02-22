@@ -13,98 +13,11 @@ namespace BitsmackGTWeb.Models
 {
     public class ChartService
     {
-        private HighCharts chart { get; set; }
         private PedometerCalcService pedometerCalcService { get; set; }
 
         public ChartService()
         {
             pedometerCalcService = new PedometerCalcService();
-        }
-
-        public HighCharts AllGoalsByMonth()
-        {
-            //init chart
-            chart = new HighCharts {chart = {type = "column"}, title = {text = "Goals by Month"}};
-            chart.yAxis.max = 2;
-            var startDate = new DateTime(2013, 3, 1);
-            var now = DateTime.Now;
-            var currentMonth = new DateTime(now.Year, now.Month, 1);
-
-            var stepSeries = new Series {name = "Steps"};
-
-            //loop months
-            for (var i = startDate; i <= currentMonth; i = i.AddMonths(1))
-            {
-                chart.xAxis.categories.Add(i.Month.ToString() + "-" +i.Year.ToString());
-                stepSeries.data.Add(pedometerCalcService.MonthPct(i.Month, i.Year));
-                
-            }
-            chart.series.Add(stepSeries);
-
-            return chart;
-        }
-
-        public HighCharts CurrentMonthGoalProgress()
-        {
-            var now = DateTime.Now;
-            chart = new HighCharts { chart = { type = "bar" }, title = { text = "Month Progress" } };
-            chart.xAxis.categories.Add("Steps");
-            chart.yAxis.max = 1;
-            chart.series.Add(new Series { name = "Expected", data = new List<double> { pedometerCalcService.MonthPctExpected(now) }, pointPadding = 0.3, pointPlacement = -0.2 });
-            chart.series.Add(new Series { name = "Actual", data = new List<double> { pedometerCalcService.MonthPct(now.Month, now.Year) }, pointPadding = 0.4, pointPlacement = -0.2 });          
-            chart.plotOptions = new PlotOptions {bar = new Bar {borderWidth = 0, grouping = false, shadow = false}};
-            chart.tooltip.shared = true;
-            return chart;
-        }
-
-        public HighCharts WeightYearProgress()
-        {
-            chart = new HighCharts {chart = {type = "solidgauge"}};
-            var startWeight = pedometerCalcService.GetStartWeight(DateTime.Now.Year);
-            const int goalWeight = 144;
-            var currentWeight = pedometerCalcService.GetRecentWeight();
-            var goalLoss = startWeight - goalWeight;
-            var actualLoss = startWeight - currentWeight;
-            var expectedPct = (DateTime.Now.DayOfYear/365.0);
-            var expectedLoss = expectedPct*goalLoss;
-
-            chart.tooltip.enabled = false;
-            chart.series.Add(new Series {name = "Weight Loss", data = new List<double> {actualLoss}});
-
-            chart.yAxis.min = 0;
-            chart.yAxis.max = goalLoss;
-            chart.yAxis.title.text = "Weight Loss";
-            chart.yAxis.labels.y = 16;
-            //chart.yAxis.title.y = -170;
-            //chart.yAxis.lineWidth = 0;
-            //chart.yAxis.minorTickInterval = null;
-            //chart.yAxis.tickPixelInterval = 400;
-            //chart.yAxis.tickWidth = 0;
-            //green: actual is more than 7 days ahead of expected
-            //yellow: actual is within 7 days of expected
-            //red: actual is less than expected
-            chart.yAxis.stops.Add(new ArrayList { 0, "#DF5353" });
-            chart.yAxis.stops.Add(new ArrayList { expectedPct, "#DDDF0D" });
-            chart.yAxis.stops.Add(new ArrayList { ((DateTime.Now.DayOfYear+7) / 365.0), "#55BF3B" });
-
-            chart.pane.startAngle = -90;
-            chart.pane.endAngle = 90;
-            chart.pane.center = new List<string> {"50%", "85%"}.ToArray();
-            chart.pane.size = "140%";
-
-            chart.pane.background.shape = "arc";
-            chart.pane.background.innerRadius = "60%";
-            chart.pane.background.outerRadius = "100%";
-
-            //chart.plotOptions.solidgauge.dataLabels = new DataLabels
-            //    {
-            //        y = 5,
-            //        borderWidth = 0,
-            //        useHTML = true
-            //    };
-
-
-            return chart;
         }
 
         public string WeightYearProgressNet()
@@ -118,15 +31,15 @@ namespace BitsmackGTWeb.Models
             var expectedLoss = Math.Round(expectedPct * goalLoss, 1);
 
             var highchart = new Highcharts("weightloss");
-            var chart = new DotNet.Highcharts.Options.Chart()
+            var chart = new Chart()
                 {
                     Type = ChartTypes.Gauge                    
                 };
             highchart.InitChart(chart);
-            highchart.SetTitle(new DotNet.Highcharts.Options.Title{Text = "Weight Loss"});
-            var series = new DotNet.Highcharts.Options.Series {Data = new Data(new object[] {actualLoss})};
+            highchart.SetTitle(new Title{Text = "Weight Loss"});
+            var series = new Series {Data = new Data(new object[] {actualLoss})};
             highchart.SetSeries(series);
-            var pane = new DotNet.Highcharts.Options.Pane
+            var pane = new Pane
                 {
                     Background = new[]
                         {
@@ -140,20 +53,10 @@ namespace BitsmackGTWeb.Models
                         EndAngle = 360
                 };
             highchart.SetPane(pane);
-            var yaxis = new DotNet.Highcharts.Options.YAxis
+            var yaxis = new YAxis
                 {
                     Min = 0,
                     Max = goalLoss,
-                    //Stops = new BackColorOrGradient(new Gradient
-                    //    {
-                    //        LinearGradient = new[] { 0, 0, 0, 400 },
-                    //        Stops = new object[,]
-                    //            {
-                    //                {0, Color.Red},
-                    //                {expectedPct,Color.Yellow},
-                    //                {((DateTime.Now.DayOfYear + 7)/365.0), Color.Green}
-                    //            }
-                    //    }),
                     PlotBands = new[]
                             {
                                 new YAxisPlotBands { From = 0, To = expectedLoss, Color = Color.Red },
@@ -163,12 +66,98 @@ namespace BitsmackGTWeb.Models
                     Labels = new YAxisLabels() { Style = "color:'black'"}
                 };
             highchart.SetYAxis(yaxis);
-            highchart.SetTooltip(new DotNet.Highcharts.Options.Tooltip() {Enabled = false});
-            highchart.SetSubtitle(new DotNet.Highcharts.Options.Subtitle()
+            highchart.SetTooltip(new Tooltip() {Enabled = false});
+            highchart.SetSubtitle(new Subtitle()
                 {
                     Text = string.Format("Actual: {0} | Expected: {1} | Difference: {2}", actualLoss, expectedLoss, actualLoss-expectedLoss)
                 });
-            highchart.SetLegend(new DotNet.Highcharts.Options.Legend() {Enabled = false});
+            highchart.SetLegend(new Legend() {Enabled = false});
+            return highchart.ToHtmlString();
+        }
+
+        public string AllGoalsByMonthNet()
+        {   
+            var now = DateTime.Now;
+            var currentMonth = new DateTime(now.Year, now.Month, 1);
+            var startDate = currentMonth.AddYears(-1);                  
+
+            var highchart = new Highcharts("AllGoalsMonth");
+            var chart = new Chart()
+                {
+                    Type = ChartTypes.Column
+                };
+            highchart.InitChart(chart);
+            highchart.SetTitle(new Title() {Text = "Goals by Month"});
+            var yaxis = new YAxis {Max = 2};
+            highchart.SetYAxis(yaxis);
+            var series = new Series {Name = "Steps"};
+            var xaxis = new XAxis();
+            var categories = new List<string>();
+            var data = new List<object>();
+            for (var i = startDate; i <= currentMonth; i = i.AddMonths(1))
+            {
+                categories.Add(i.Month.ToString() + "-" + i.Year.ToString());
+                data.Add(pedometerCalcService.MonthPct(i.Month, i.Year));
+            }
+            xaxis.Categories = categories.ToArray();
+            series.Data = new Data(data.ToArray());
+            highchart.SetXAxis(xaxis);
+            highchart.SetSeries(series);
+
+            return highchart.ToHtmlString();
+        }
+
+        public string CurrentMonthGoalProgressNet()
+        {
+            var now = DateTime.Now;
+            var expectedPct = ((decimal)now.Day / DateTime.DaysInMonth(now.Year,now.Month));
+            var highchart = new Highcharts("CurrentMonthGoal");
+            var chart = new Chart() {Type = ChartTypes.Bar};
+            var categories = new List<string> {"Steps"};
+            var yaxis = new YAxis {Max = 1};
+
+            var seriesArray = new List<Series>();
+            var series = new Series {Name = "Expected",Color = Color.Red};
+            var data = new List<object> {pedometerCalcService.MonthPctExpected(now)};
+            var plotoptions = new PlotOptionsBar
+                {
+                    Grouping = false,
+                    Shadow = false,
+                    DataLabels = new PlotOptionsBarDataLabels()
+                        {
+                            Enabled = true,
+                            Format = string.Format("Expected: {0}", (int) (pedometerCalcService.StepsPR()*expectedPct)),
+                            Color = Color.White
+                        }
+                };
+            series.Data = new Data(data.ToArray());
+            series.PlotOptionsBar = plotoptions;
+            seriesArray.Add(series);
+
+            series = new Series {Name = "Actual", Color = Color.Green};
+            data = new List<object> { pedometerCalcService.MonthPct(now.Month, now.Year) };
+            plotoptions = new PlotOptionsBar
+                {
+                    Grouping = false,
+                    Shadow = false,
+                    DataLabels = new PlotOptionsBarDataLabels()
+                        {
+                            Enabled = true,
+                            Format = string.Format("Actual: {0}", pedometerCalcService.MonthStepsActual()),
+                            Color = Color.White
+                        }
+                };
+            series.Data = new Data(data.ToArray());
+            series.PlotOptionsBar = plotoptions;
+            seriesArray.Add(series);
+     
+            highchart.InitChart(chart);
+            highchart.SetTitle(new Title() {Text = "Month Progress"});
+            highchart.SetXAxis(new XAxis() {Categories = categories.ToArray()});
+            highchart.SetYAxis(yaxis);
+            highchart.SetSeries(seriesArray.ToArray());
+            highchart.SetTooltip(new Tooltip() {Enabled = false});
+
             return highchart.ToHtmlString();
         }
     }

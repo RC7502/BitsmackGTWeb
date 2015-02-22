@@ -1,12 +1,9 @@
 ﻿$(function() {
     LoadThemes();
-    BuildChart("Chart/AllGoalsByMonth", "#AllGoalsByMonth");
-    BuildChart("Chart/CurrentMonthGoalProgress", "#CurrentMonthProgress");
-    //BuildChart("Chart/WeightYearProgress", "#WeightYearGauge");
+    BuildChartNet("Chart/AllGoalsByMonth", "#AllGoalsByMonth");
+    BuildChartNet("Chart/CurrentMonthGoalProgress", "#CurrentMonthProgress");
+    BuildChartNet("Chart/WeightYearProgress", "#WeightYearGauge");
 
-    $.get("Chart/WeightYearProgress", function(returndata) {
-        $("#WeightYearGauge").html(returndata);
-    });
 });
 
 function BuildChart(url, targetDiv) {
@@ -15,6 +12,12 @@ function BuildChart(url, targetDiv) {
         success: function (returndata) {
             $(targetDiv).highcharts(returndata);
         }
+    });
+}
+
+function BuildChartNet(url, targetDiv) {
+    $.get(url, function (returndata) {
+        $(targetDiv).html(returndata);
     });
 }
 

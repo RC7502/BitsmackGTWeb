@@ -82,5 +82,11 @@ namespace BitsmackGTWeb.Models
                 PedommeterRecords.Where(x => x.weight > 0).OrderByDescending(x => x.trandate).FirstOrDefault();
             return recentRec != null ? recentRec.weight : 0;
         }
+
+        public int MonthStepsActual()
+        {
+            var monthact = MonthPedometer().FirstOrDefault(x => x.trandate.Year == DateTime.Now.Year && x.trandate.Month == DateTime.Now.Month);
+            return monthact != null ? monthact.steps : 0;
+        }
     }
 }
