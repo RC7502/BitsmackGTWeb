@@ -36,7 +36,7 @@ namespace BitsmackGTWeb.Models
                     Type = ChartTypes.Gauge                    
                 };
             highchart.InitChart(chart);
-            highchart.SetTitle(new Title{Text = "Weight Loss"});
+            highchart.SetTitle(new Title{Text = "Weight Loss " + Math.Round(currentWeight,1)});
             var series = new Series {Data = new Data(new object[] {actualLoss})};
             highchart.SetSeries(series);
             var pane = new Pane
@@ -110,7 +110,12 @@ namespace BitsmackGTWeb.Models
         public string CurrentMonthGoalProgressNet()
         {
             var now = DateTime.Now;
-            var expectedPct = ((decimal)now.Day / DateTime.DaysInMonth(now.Year,now.Month));
+            var daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
+            var expectedPct = ((decimal)now.Day / daysInMonth);
+            var remainingDays = daysInMonth - now.Day;
+            var stepsPR = pedometerCalcService.StepsPR();
+            var remainingSteps = (int) (stepsPR-pedometerCalcService.MonthStepsActual())/remainingDays;
+
             var highchart = new Highcharts("CurrentMonthGoal");
             var chart = new Chart() {Type = ChartTypes.Bar};
             var categories = new List<string> {"Steps"};
@@ -125,8 +130,8 @@ namespace BitsmackGTWeb.Models
                     Shadow = false,
                     DataLabels = new PlotOptionsBarDataLabels()
                         {
-                            Enabled = true,
-                            Format = string.Format("Expected: {0}", (int) (pedometerCalcService.StepsPR()*expectedPct)),
+                            Enabled = false,
+                            Format = string.Format("Expected: {0}", (int) (stepsPR*expectedPct)),
                             Color = Color.White
                         }
                 };
@@ -143,8 +148,9 @@ namespace BitsmackGTWeb.Models
                     DataLabels = new PlotOptionsBarDataLabels()
                         {
                             Enabled = true,
-                            Format = string.Format("Actual: {0}", pedometerCalcService.MonthStepsActual()),
-                            Color = Color.White
+                            Format = string.Format("Remaining: {0}/day", remainingSteps),
+                            Color = Color.White,
+                            Shadow = false                           
                         }
                 };
             series.Data = new Data(data.ToArray());

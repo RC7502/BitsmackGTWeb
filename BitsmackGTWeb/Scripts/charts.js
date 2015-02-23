@@ -100,7 +100,8 @@ function LoadThemes() {
         plotOptions: {
             series: {
                 dataLabels: {
-                    color: '#B0B0B3'
+                    color: '#B0B0B3',
+                    textShadow: "0px",
                 },
                 marker: {
                     lineColor: '#333'
